@@ -1,0 +1,519 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PREVIEW v6 — Print Preflight | Silver Image</title>
+<style>body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0;background:#0a0a0a}
+.sil-pf-stage{background:radial-gradient(ellipse 90% 380px at 50% -80px,rgba(255,255,255,.045),transparent 70%) #0a0a0a;color:#f2f2f2;margin:0 calc(50% - 50vw);padding:40px 0 0}
+.sil-pf{max-width:860px;margin:0 auto;padding:0 20px 40px;font-variant-numeric:tabular-nums}
+.sil-pf-brand{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.sil-pf-brand img{display:block}
+.sil-pf-brand .sil-pf-prod{font-size:14px;font-weight:600;letter-spacing:.01em;color:#fff;border-left:1px solid rgba(255,255,255,.25);padding-left:14px}
+.sil-pf-desc{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 26px}
+.sil-pf h1{font-size:34px;font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin:0 0 12px;text-wrap:balance;color:#fff}
+.sil-pf .sil-pf-lead{font-size:16px;color:rgba(255,255,255,.72);line-height:1.65;max-width:62ch;text-wrap:pretty}
+.sil-pf-privacy{color:#7fd8a4;font-weight:600}
+.sil-pf-drop{border:1.5px dashed #3a3a3f;border-radius:12px;padding:44px 16px;text-align:center;cursor:pointer;display:flex;flex-direction:column;gap:7px;background:#131315;margin:28px 0;transition:border-color .2s,background .2s,transform .2s}
+.sil-pf-drop:hover{border-color:#fff;transform:translateY(-1px)}
+.sil-pf-drop:active{transform:scale(.99)}
+.sil-pf-drop:focus-visible{outline:2px solid #FBBC04;outline-offset:3px}
+.sil-pf-drop.sil-pf-over{border-color:#FBBC04;border-style:solid;background:#1c1708}
+.sil-pf-drop strong{font-size:18px;letter-spacing:-0.01em;color:#fff}
+.sil-pf-drop span{color:rgba(255,255,255,.55);font-size:14px}
+.sil-pf-drop em{color:#7fd8a4;font-size:13px;font-style:normal;font-weight:600}
+.sil-pf-result{margin-top:22px;border:1px solid #232327;border-radius:12px;padding:18px 22px;background:#131315;animation:silPfIn .24s ease-out}
+@keyframes silPfIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.sil-pf-result{animation:none}.sil-pf-drop{transition:none}}
+.sil-pf-result h3{margin:0 0 2px;font-size:17px;letter-spacing:-0.01em;overflow-wrap:anywhere;color:#fff}
+.sil-pf-table{width:100%;border-collapse:collapse;margin:12px 0}
+.sil-pf-table th{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.03em;font-weight:600}
+.sil-pf-table th,.sil-pf-table td{padding:7px 10px;border-bottom:1px solid #232327;text-align:left;font-size:14px}
+.sil-pf-table td:nth-child(2){min-width:96px}
+.sil-pf-table tbody tr{transition:background .15s}
+.sil-pf-table tbody tr:hover{background:#18181b}
+.sil-pf-ok td{color:#6fce96}.sil-pf-warn td{color:#e3b256}.sil-pf-bad td{color:#e88b80}
+.sil-pf-rec{background:#FBBC04;color:#0a0a0a;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;margin-left:6px;white-space:nowrap}
+.sil-pf-meta{color:rgba(255,255,255,.55);font-size:14px}
+.sil-pf-max{font-size:16px;margin-bottom:2px;color:#fff}
+.sil-pf-quality{color:rgba(255,255,255,.55);font-size:13px;font-weight:400}
+.sil-pf-close{font-size:14px;color:rgba(255,255,255,.72);margin-top:0}
+.sil-pf-note{color:rgba(255,255,255,.55);font-size:13px;line-height:1.55;max-width:65ch;text-wrap:pretty}
+.sil-pf-warn-note{color:#e3b256}.sil-pf-bad-note{color:#e88b80}
+.sil-pf-score{font-size:15px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:#fff}
+.sil-pf-meter{flex:1 1 180px;max-width:260px;height:8px;background:#232327;border-radius:999px;overflow:hidden}
+.sil-pf-meter span{display:block;height:100%;background:#FBBC04;border-radius:999px;transition:width .4s ease-out}
+.sil-pf-score small{color:rgba(255,255,255,.45);cursor:help}
+.sil-pf-cta{margin-top:18px}
+.sil-pf-cta a{display:inline-block;background:#fff;color:#0a0a0a;font-weight:600;text-decoration:none;padding:11px 20px;border-radius:8px;transition:background .2s,transform .15s}
+.sil-pf-cta a:hover{background:#FBBC04}
+.sil-pf-cta a:active{transform:translateY(1px)}
+.sil-pf-cta a:focus-visible{outline:2px solid #FBBC04;outline-offset:3px}
+.sil-pf-error{border-color:#e88b80;color:#e88b80}
+.sil-pf-busy{margin-top:22px;border:1px solid #232327;border-radius:12px;padding:18px 22px;background:#131315;color:rgba(255,255,255,.6);font-size:14px;animation:silPfPulse 1.1s ease-in-out infinite alternate}
+@keyframes silPfPulse{from{opacity:.45}to{opacity:.9}}
+@media (prefers-reduced-motion:reduce){.sil-pf-busy{animation:none}}
+.sil-pf-ref{margin-top:44px}
+.sil-pf-ref h2{font-size:21px;letter-spacing:-0.01em;margin:0 0 6px;color:#fff}
+.sil-pf-ref-grid{display:grid;grid-template-columns:1fr;gap:8px 32px}
+@media(min-width:720px){.sil-pf-ref-grid{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);align-items:start}}
+.sil-pf-ref table{width:100%;border-collapse:collapse}
+.sil-pf-ref th{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.03em;font-weight:600}
+.sil-pf-ref th,.sil-pf-ref td{padding:6px 10px;border-bottom:1px solid #232327;font-size:14px;text-align:left;color:#dcdcdf}
+.sil-pf-links{margin-top:32px;font-size:15px;line-height:1.7;max-width:65ch;color:rgba(255,255,255,.72)}
+.sil-pf-links a{color:#fff;text-underline-offset:3px}
+.sil-pf-links a:hover{text-decoration-thickness:2px}
+.sil-pf-foot{border-top:1px solid #1c1c1f;margin-top:44px;padding:16px 20px;text-align:center;font-size:12px;color:rgba(255,255,255,.4)}
+</style></head><body>
+<section class="sil-pf-stage" aria-label="Print Preflight tool">
+<div class="sil-pf">
+<header class="sil-pf-brand"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjQuOCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIGZpbGw9IiNGRkZGRkYiIHZlcnNpb249IjEuMCIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyMDQuNCA0NC41IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMDQuNCA0NC41OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPHBhdGggZD0iTTE0LjksMTIuOGM1LjEsMCw4LjUsMi42LDguNiw2LjZoLTUuMWMtMC4xLTEuNi0xLjQtMi43LTMuNS0yLjdjLTEuOSwwLTMuMiwwLjktMy4yLDIuMmMwLDEsMC45LDEuNywyLjcsMi4xbDMuOSwwLjgKCQljNC4xLDAuOSw1LjgsMi41LDUuOCw1LjZjMCw0LTMuNyw2LjctOS4xLDYuN2MtNS41LDAtOC44LTIuNi05LjEtNi42aDUuNGMwLjMsMS43LDEuNiwyLjcsMy44LDIuN2MyLjEsMCwzLjQtMC44LDMuNC0yLjIKCQljMC0xLTAuNy0xLjYtMi41LTJsLTMuOC0wLjhjLTMuOS0wLjktNS45LTIuOS01LjktNS45QzYuMiwxNS4zLDkuNiwxMi44LDE0LjksMTIuOHoiLz4KCTxwYXRoIGQ9Ik0yNi43LDguMWMwLTEuNiwxLjMtMi45LDMtMi45YzEuNywwLDMsMS4zLDMsMi45YzAsMS42LTEuMywyLjktMywyLjlDMjgsMTEsMjYuNyw5LjcsMjYuNyw4LjF6IE0yNi44LDEzLjJoNS42djIwLjVoLTUuNgoJCVYxMy4yeiIvPgoJPHBhdGggZD0iTTM2LjMsNi4xaDUuNnYyNy42aC01LjZWNi4xeiIvPgoJPHBhdGggZD0iTTU3LjMsMzMuN0g1MWwtNy4xLTIwLjVoNmw0LjMsMTUuNmgwLjFsNC4yLTE1LjZoNS44TDU3LjMsMzMuN3oiLz4KCTxwYXRoIGQ9Ik04NC40LDI3LjRjLTAuNiw0LTQuMyw2LjctOS4zLDYuN2MtNi4zLDAtMTAuMS00LTEwLjEtMTAuNmMwLTYuNSwzLjgtMTAuOCw5LjktMTAuOGM2LDAsOS43LDQsOS43LDEwLjN2MS43SDcwLjV2MC4zCgkJYzAsMi45LDEuOSw0LjksNC43LDQuOWMyLDAsMy42LTEsNC4xLTIuNkg4NC40eiBNNzAuNSwyMS4zaDguN2MtMC4xLTIuNi0xLjgtNC40LTQuMy00LjRDNzIuNSwxNi45LDcwLjcsMTguOCw3MC41LDIxLjN6Ii8+Cgk8cGF0aCBkPSJNODcuNSwxMy4yaDUuNHYzLjdIOTNjMC43LTIuNiwyLjUtNCw0LjktNGMwLjYsMCwxLjIsMC4xLDEuNiwwLjJWMThjLTAuNS0wLjItMS4yLTAuMy0yLTAuM2MtMi44LDAtNC40LDEuNy00LjQsNC42djExLjUKCQloLTUuNlYxMy4yeiIvPgoJPHBhdGggZD0iTTEwMi45LDcuMmMwLTAuNywwLjYtMS4zLDEuMy0xLjNzMS4zLDAuNiwxLjMsMS4zYzAsMC43LTAuNiwxLjMtMS4zLDEuM1MxMDIuOSw3LjksMTAyLjksNy4yeiBNMTAzLjQsMTMuMWgxLjV2MjAuNmgtMS41CgkJVjEzLjF6Ii8+Cgk8cGF0aCBkPSJNMTA5LjksMTMuMWgxLjV2NC4zaDAuMmMwLjktMi44LDMuMi00LjYsNi4xLTQuNmMzLDAsNS4yLDEuOCw2LDQuN2gwLjFjMS0yLjgsMy41LTQuNyw2LjYtNC43YzQuMSwwLDYuNSwyLjYsNi41LDd2MTMuOQoJCWgtMS41VjIwLjJjMC0zLjgtMS45LTYtNS4zLTZjLTMuNiwwLTYsMi44LTYsNi43djEyLjhoLTEuNVYyMC4yYzAtMy42LTIuMS02LTUuMy02Yy0zLjMsMC02LDMuMS02LDcuMXYxMi40aC0xLjVWMTMuMXoiLz4KCTxwYXRoIGQ9Ik0xNDAuNCwyOC4yTDE0MC40LDI4LjJjMC0zLjUsMi42LTUuNSw3LjMtNS45bDcuMS0wLjV2LTJjMC0zLjYtMi4yLTUuNi01LjktNS42Yy0zLjIsMC01LjYsMS40LTYuMiw0djBoLTEuNXYtMC4xCgkJYzAuNi0zLjMsMy42LTUuNCw3LjctNS40YzQuNSwwLDcuMywyLjQsNy4zLDYuOXYxNGgtMS41di00LjJoLTAuMmMtMS4xLDIuOC00LDQuNS03LjQsNC41QzE0My4yLDM0LDE0MC40LDMxLjcsMTQwLjQsMjguMnoKCQkgTTE0Ny40LDMyLjdjNC4xLDAsNy4zLTIuOSw3LjMtNi43VjIzbC02LjksMC41Yy00LDAuMy02LDEuOS02LDQuNnYwQzE0MS45LDMwLjksMTQ0LjIsMzIuNywxNDcuNCwzMi43eiIvPgoJPHBhdGggZD0iTTE2MS4xLDM1LjlMMTYxLjEsMzUuOWwxLjUsMGwwLDBjMC42LDIuMSwzLjEsMy41LDYuNSwzLjVjNC4zLDAsNy4xLTIuNCw3LjEtNi4xdi01LjJoLTAuMWMtMS4xLDMuMy0zLjksNS4zLTcuNSw1LjMKCQljLTUuMywwLTguNy00LjItOC43LTEwLjJ2MGMwLTYuMSwzLjUtMTAuMyw4LjgtMTAuM2MzLjUsMCw2LjQsMi4yLDcuNSw1LjVoMC4xdi01LjJoMS41djIwLjRjMCw0LjMtMy41LDcuMy04LjYsNy4zCgkJQzE2NC43LDQwLjgsMTYxLjYsMzguOSwxNjEuMSwzNS45eiBNMTc2LjMsMjMuM0wxNzYuMywyMy4zYzAtNS40LTMtOS4xLTcuNS05LjFjLTQuNSwwLTcuNCwzLjctNy40LDguOXYwYzAsNS4zLDIuOSw4LjksNy40LDguOQoJCUMxNzMuNCwzMi4xLDE3Ni4zLDI4LjUsMTc2LjMsMjMuM3oiLz4KCTxwYXRoIGQ9Ik0xODEuNSwyMy41TDE4MS41LDIzLjVjMC02LjYsMy42LTEwLjcsOS0xMC43YzUuNCwwLDguOCw0LjEsOC44LDEwLjF2MC43SDE4M2MwLjEsNS41LDMuMSw5LDcuNyw5YzMuMywwLDUuOC0xLjUsNi43LTMuNgoJCWwwLjEtMC4xaDEuNWwtMC4xLDAuMmMtMSwyLjgtNCw0LjktOC4yLDQuOUMxODUuMSwzNCwxODEuNSwyOS45LDE4MS41LDIzLjV6IE0xODMsMjIuNGgxNC45Yy0wLjItNS4yLTMuMS04LjMtNy40LTguMwoJCUMxODYuMywxNC4yLDE4My4yLDE3LjMsMTgzLDIyLjR6Ii8+CjwvZz4KPC9zdmc+Cg==" alt="Silver Image Print &amp; Signs" width="147" height="32"><span class="sil-pf-prod">Print Preflight</span></header>
+<p class="sil-pf-desc">DPI, Print Size &amp; Artwork Resolution Checker</p>
+<h1>Print Preflight &ndash; Check Image Resolution Before Printing</h1>
+<p class="sil-pf-lead">Check whether your JPG, PNG, WebP or TIFF file has enough resolution for professional printing &mdash; from A6 flyers up to A0 posters. <span class="sil-pf-privacy">Your artwork never leaves your device</span> &mdash; files are analysed locally in your browser and are never uploaded.</p>
+<div id="preflight-app"></div>
+</div>
+<footer class="sil-pf-foot">Built by Silver Image Print &amp; Signs &middot; London</footer>
+</section>
+<script>/* Silver Image Print Preflight — bundle. Analiza w 100% lokalna, plik nie opuszcza urzadzenia. */
+(function(){
+/**
+ * Silver Image Print Preflight — core
+ *
+ * Pure, dependency-free TypeScript. Runs identically in the browser,
+ * Node and the VS Code extension host. No image DECODING happens here:
+ * dimensions are read straight from file headers, so a 200 MB TIFF costs
+ * the same few microseconds as a thumbnail — and nothing ever needs to
+ * leave the user's device.
+ *
+ * Reused by: web tool (silverimagelondon.com/tools/print-preflight),
+ * VS Code extension, future Figma wrapper. Do not duplicate this logic
+ * in wrappers — import it.
+ */
+/** ISO 216 A-series, millimetres. */
+const PAPERS = [
+    { name: "A0", wMm: 841, hMm: 1189 },
+    { name: "A1", wMm: 594, hMm: 841 },
+    { name: "A2", wMm: 420, hMm: 594 },
+    { name: "A3", wMm: 297, hMm: 420 },
+    { name: "A4", wMm: 210, hMm: 297 },
+    { name: "A5", wMm: 148, hMm: 210 },
+    { name: "A6", wMm: 105, hMm: 148 },
+];
+const MM_PER_INCH = 25.4;
+const SQRT2 = Math.SQRT2;
+class PreflightError extends Error {
+    constructor(code, message) {
+        super(message);
+        this.code = code;
+    }
+}
+/* ────────────────────────────────────────────────────────────────────
+ * Header parsers. Input is untrusted: every read is bounds-checked and
+ * nothing from the file is ever executed or interpreted as markup.
+ * ──────────────────────────────────────────────────────────────────── */
+function u16be(b, o) {
+    return (b[o] << 8) | b[o + 1];
+}
+function u32be(b, o) {
+    return ((b[o] << 24) | (b[o + 1] << 16) | (b[o + 2] << 8) | b[o + 3]) >>> 0;
+}
+function u16le(b, o) {
+    return b[o] | (b[o + 1] << 8);
+}
+function u24le(b, o) {
+    return b[o] | (b[o + 1] << 8) | (b[o + 2] << 16);
+}
+function u32le(b, o) {
+    return (b[o] | (b[o + 1] << 8) | (b[o + 2] << 16) | (b[o + 3] << 24)) >>> 0;
+}
+function parsePng(b) {
+    if (b.length < 24)
+        return null;
+    const sig = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+    for (let i = 0; i < 8; i++)
+        if (b[i] !== sig[i])
+            return null;
+    // first chunk must be IHDR: length(4) type(4)=IHDR width(4) height(4)
+    if (b[12] !== 0x49 || b[13] !== 0x48 || b[14] !== 0x44 || b[15] !== 0x52) {
+        throw new PreflightError("corrupt", "PNG signature present but IHDR chunk missing");
+    }
+    return { format: "png", width: u32be(b, 16), height: u32be(b, 20) };
+}
+function parseJpeg(b) {
+    if (b.length < 4 || b[0] !== 0xff || b[1] !== 0xd8)
+        return null;
+    let o = 2;
+    while (o + 9 < b.length) {
+        if (b[o] !== 0xff) {
+            o++; // padding/fill bytes between markers are legal
+            continue;
+        }
+        const marker = b[o + 1];
+        if (marker === 0xd8 || (marker >= 0xd0 && marker <= 0xd7) || marker === 0x01) {
+            o += 2;
+            continue;
+        }
+        if (marker === 0xd9 || marker === 0xda)
+            break; // EOI / start of scan — no SOF found
+        const len = u16be(b, o + 2);
+        if (len < 2 || o + 2 + len > b.length) {
+            throw new PreflightError("corrupt", "JPEG marker segment overruns the file");
+        }
+        const isSof = (marker >= 0xc0 && marker <= 0xc3) ||
+            (marker >= 0xc5 && marker <= 0xc7) ||
+            (marker >= 0xc9 && marker <= 0xcb) ||
+            (marker >= 0xcd && marker <= 0xcf);
+        if (isSof) {
+            // segment: len(2) precision(1) height(2) width(2)
+            return { format: "jpeg", width: u16be(b, o + 7), height: u16be(b, o + 5) };
+        }
+        o += 2 + len;
+    }
+    throw new PreflightError("corrupt", "JPEG has no SOF frame header");
+}
+function parseWebp(b) {
+    if (b.length < 30)
+        return null;
+    if (b[0] !== 0x52 || b[1] !== 0x49 || b[2] !== 0x46 || b[3] !== 0x46)
+        return null; // RIFF
+    if (b[8] !== 0x57 || b[9] !== 0x45 || b[10] !== 0x42 || b[11] !== 0x50)
+        return null; // WEBP
+    const fourcc = String.fromCharCode(b[12], b[13], b[14], b[15]);
+    if (fourcc === "VP8X") {
+        // canvas size: 24-bit LE minus one, at offsets 24 and 27
+        return { format: "webp", width: u24le(b, 24) + 1, height: u24le(b, 27) + 1 };
+    }
+    if (fourcc === "VP8 ") {
+        // lossy: frame tag 3B, sync 9D 01 2A, then 16-bit LE dims (14 bits used)
+        if (b[23] !== 0x9d || b[24] !== 0x01 || b[25] !== 0x2a) {
+            throw new PreflightError("corrupt", "WebP VP8 sync code missing");
+        }
+        return {
+            format: "webp",
+            width: u16le(b, 26) & 0x3fff,
+            height: u16le(b, 28) & 0x3fff,
+        };
+    }
+    if (fourcc === "VP8L") {
+        if (b[20] !== 0x2f)
+            throw new PreflightError("corrupt", "WebP VP8L signature missing");
+        const bits = u32le(b, 21);
+        return {
+            format: "webp",
+            width: (bits & 0x3fff) + 1,
+            height: ((bits >> 14) & 0x3fff) + 1,
+        };
+    }
+    throw new PreflightError("corrupt", "WebP chunk layout not recognised");
+}
+/**
+ * Probe the first 8 bytes for a TIFF header. Lets callers (the web tool)
+ * read ONLY the IFD slice of a huge file instead of the whole file.
+ */
+function probeTiff(head) {
+    if (head.length < 8)
+        return null;
+    const le = head[0] === 0x49 && head[1] === 0x49;
+    const be = head[0] === 0x4d && head[1] === 0x4d;
+    if (!le && !be)
+        return null;
+    const u16 = le ? u16le : u16be;
+    const u32 = le ? u32le : u32be;
+    if (u16(head, 2) !== 42)
+        return null;
+    return { littleEndian: le, ifdOffset: u32(head, 4) };
+}
+/** Parse dimensions from an IFD slice whose byte 0 is the start of the IFD. */
+function parseTiffDimsFromIfd(ifdBytes, littleEndian) {
+    const u16 = littleEndian ? u16le : u16be;
+    const u32 = littleEndian ? u32le : u32be;
+    if (ifdBytes.length < 2)
+        throw new PreflightError("corrupt", "TIFF IFD slice too short");
+    const count = u16(ifdBytes, 0);
+    let width = 0, height = 0;
+    for (let i = 0; i < count; i++) {
+        const e = 2 + i * 12;
+        if (e + 12 > ifdBytes.length) {
+            throw new PreflightError("corrupt", "TIFF IFD entry out of bounds");
+        }
+        const tag = u16(ifdBytes, e);
+        const type = u16(ifdBytes, e + 2);
+        if (tag !== 0x0100 && tag !== 0x0101)
+            continue;
+        let val;
+        if (type === 3)
+            val = u16(ifdBytes, e + 8); // SHORT, left-justified
+        else if (type === 4)
+            val = u32(ifdBytes, e + 8); // LONG
+        else
+            continue;
+        if (tag === 0x0100)
+            width = val;
+        else
+            height = val;
+    }
+    if (!width || !height) {
+        throw new PreflightError("corrupt", "TIFF is missing ImageWidth/ImageLength tags");
+    }
+    return { format: "tiff", width, height };
+}
+/** How many bytes of IFD slice are needed once the entry count is known. */
+function tiffIfdByteLength(entryCount) {
+    return 2 + entryCount * 12 + 4;
+}
+function parseTiff(b) {
+    const probe = probeTiff(b);
+    if (!probe)
+        return null;
+    const ifd = probe.ifdOffset;
+    if (ifd + 2 > b.length)
+        throw new PreflightError("corrupt", "TIFF IFD offset out of bounds");
+    return parseTiffDimsFromIfd(b.subarray(ifd), probe.littleEndian);
+}
+/** Read pixel dimensions from raw file bytes. Throws PreflightError. */
+function parseImage(bytes) {
+    if (!bytes || bytes.length === 0) {
+        throw new PreflightError("empty", "The file is empty");
+    }
+    const parsed = parsePng(bytes) ?? parseJpeg(bytes) ?? parseWebp(bytes) ?? parseTiff(bytes);
+    if (!parsed) {
+        throw new PreflightError("unsupported", "Unsupported file type — supported: JPG, PNG, WebP, TIFF");
+    }
+    if (parsed.width < 1 ||
+        parsed.height < 1 ||
+        parsed.width > 1000000 ||
+        parsed.height > 1000000) {
+        throw new PreflightError("bounds", "Image dimensions are outside a sane range");
+    }
+    return parsed;
+}
+/* ────────────────────────────────────────────────────────────────────
+ * Print maths
+ * ──────────────────────────────────────────────────────────────────── */
+function verdictFor(dpi) {
+    if (dpi >= 300)
+        return "excellent";
+    if (dpi >= 200)
+        return "good";
+    if (dpi >= 150)
+        return "acceptable-large-format";
+    if (dpi >= 100)
+        return "low";
+    return "not-recommended";
+}
+/** Effective DPI when the image fills the paper, paper rotated to match image orientation. */
+function dpiForPaper(width, height, paper) {
+    const imgLandscape = width >= height;
+    const paperW = imgLandscape ? paper.hMm : paper.wMm;
+    const paperH = imgLandscape ? paper.wMm : paper.hMm;
+    const dpiX = width / (paperW / MM_PER_INCH);
+    const dpiY = height / (paperH / MM_PER_INCH);
+    return Math.round(Math.min(dpiX, dpiY));
+}
+/**
+ * Deterministic readiness score.
+ *   base  = round( mean over A0..A6 of min(dpi,300)/300 × 100 )
+ *   bonus = +3 when the aspect ratio is within 1.5% of √2 (prints edge-to-edge
+ *           on A-series with no crop), 0 within 7%, −8 beyond that.
+ * Clamped to 0..100. No model, no randomness — same file, same score, forever.
+ */
+function assess(width, height) {
+    if (width < 1 || height < 1) {
+        throw new PreflightError("bounds", "Dimensions must be positive");
+    }
+    const long = Math.max(width, height);
+    const short = Math.min(width, height);
+    const aspectRatio = long / short;
+    const aspectDeviationPct = Math.abs(aspectRatio - SQRT2) / SQRT2 * 100;
+    const formats = PAPERS.map((p) => {
+        const dpi = dpiForPaper(width, height, p);
+        return { paper: p.name, dpi, capped: dpi >= 300, verdict: verdictFor(dpi) };
+    });
+    let recommendedMax = null;
+    let recommendedMaxVerdict = null;
+    let closeViewingMax = null;
+    for (const f of formats) {
+        // PAPERS is ordered A0 (largest) → A6; first hit is the largest qualifying size.
+        if (recommendedMax === null && f.dpi >= 150) {
+            recommendedMax = f.paper;
+            recommendedMaxVerdict = f.verdict;
+        }
+        if (closeViewingMax === null && f.dpi >= 200) {
+            closeViewingMax = f.paper;
+        }
+        if (recommendedMax !== null && closeViewingMax !== null)
+            break;
+    }
+    const mean = formats.reduce((s, f) => s + Math.min(f.dpi, 300) / 300, 0) / formats.length;
+    const base = Math.round(mean * 100);
+    const bonus = aspectDeviationPct <= 1.5 ? 3 : aspectDeviationPct <= 7 ? 0 : -8;
+    const score = Math.max(0, Math.min(100, base + bonus));
+    return {
+        width,
+        height,
+        megapixels: Math.round((width * height) / 10000) / 100,
+        orientation: width === height ? "square" : width > height ? "landscape" : "portrait",
+        aspectRatio: Math.round(aspectRatio * 1000) / 1000,
+        aspectDeviationPct: Math.round(aspectDeviationPct * 10) / 10,
+        aspectWarning: aspectDeviationPct > 7,
+        formats,
+        recommendedMax,
+        recommendedMaxVerdict,
+        closeViewingMax,
+        score,
+        scoreBreakdown: `base ${base} (mean of min(DPI,300)/300 across A0-A6)` +
+            (bonus ? ` ${bonus > 0 ? "+" : ""}${bonus} aspect-ratio ${bonus > 0 ? "bonus" : "penalty"}` : ""),
+    };
+}
+/** One-call convenience for wrappers: bytes in, full result out. */
+function analyzeBytes(bytes) {
+    const image = parseImage(bytes);
+    return { image, result: assess(image.width, image.height) };
+}
+"use strict";
+/**
+ * Print Preflight — browser UI.
+ * Bundled AFTER core.ts with `export` statements stripped, so core's
+ * functions are plain globals here. All processing is local: the file is
+ * read with FileReader into memory, parsed, and never sent anywhere.
+ */
+(function () {
+    const root = document.getElementById("preflight-app");
+    if (!root)
+        return;
+    const VERDICT_LABEL = {
+        "excellent": ["Excellent", "sil-pf-ok"],
+        "good": ["Good", "sil-pf-ok"],
+        "acceptable-large-format": ["Acceptable for large-format", "sil-pf-warn"],
+        "low": ["Low resolution", "sil-pf-warn"],
+        "not-recommended": ["Not recommended", "sil-pf-bad"],
+    };
+    function esc(s) {
+        return s.replace(/[&<>"']/g, (c) => c === "&" ? "&amp;" : c === "<" ? "&lt;" : c === ">" ? "&gt;" : c === '"' ? "&quot;" : "&#39;");
+    }
+    root.innerHTML =
+        '<div class="sil-pf-drop" id="silPfDrop" tabindex="0" role="button" aria-label="Choose or drop an image file to check">' +
+            '<strong>Drop your artwork here</strong><span>or click to choose a file &mdash; JPG, PNG, WebP or TIFF</span>' +
+            '<em>Your artwork never leaves your device. The check runs entirely in your browser.</em>' +
+            "</div>" +
+            '<input type="file" id="silPfFile" accept=".jpg,.jpeg,.png,.webp,.tif,.tiff,image/jpeg,image/png,image/webp,image/tiff" hidden>' +
+            '<div id="silPfOut" aria-live="polite"></div>';
+    const drop = document.getElementById("silPfDrop");
+    const input = document.getElementById("silPfFile");
+    const out = document.getElementById("silPfOut");
+    function render(name, data) {
+        var _a;
+        const r = data.result;
+        const rows = r.formats
+            .map((f) => {
+            const [label, cls] = VERDICT_LABEL[f.verdict];
+            const dpi = f.capped ? "300+" : String(f.dpi);
+            const rec = f.paper === r.recommendedMax ? ' <span class="sil-pf-rec">recommended max</span>' : "";
+            return `<tr class="${cls}"><td>${f.paper}</td><td>${dpi} DPI</td><td>${label}${rec}</td></tr>`;
+        })
+            .join("");
+        const aspect = r.aspectWarning
+            ? '<p class="sil-pf-note sil-pf-warn-note">This image&rsquo;s proportions do not match the A-series sheet (ratio &radic;2). ' +
+                "Printing at a standard size will need cropping or white borders.</p>"
+            : "";
+        let recLine;
+        if (r.recommendedMax) {
+            const [qualityLabel] = VERDICT_LABEL[(_a = r.recommendedMaxVerdict) !== null && _a !== void 0 ? _a : "excellent"];
+            recLine =
+                `<p class="sil-pf-max">Recommended maximum size: <strong>${r.recommendedMax}</strong>` +
+                    ` <span class="sil-pf-quality">&middot; quality at ${r.recommendedMax}: ${qualityLabel}</span></p>`;
+            if (r.closeViewingMax && r.closeViewingMax !== r.recommendedMax) {
+                recLine += `<p class="sil-pf-close">For close viewing (read in hand): <strong>${r.closeViewingMax}</strong> recommended</p>`;
+            }
+        }
+        else {
+            recLine = '<p class="sil-pf-max sil-pf-bad-note">This file is below 150 DPI even at A6. For print, a higher-resolution original is needed.</p>';
+        }
+        out.innerHTML =
+            `<div class="sil-pf-result">` +
+                `<h3>${esc(name)}</h3>` +
+                `<p class="sil-pf-meta">${r.width.toLocaleString()} &times; ${r.height.toLocaleString()} px &middot; ` +
+                `${r.megapixels} MP &middot; ${r.orientation} &middot; aspect ${r.aspectRatio}:1</p>` +
+                `<table class="sil-pf-table"><thead><tr><th>Size</th><th>Effective DPI</th><th>Verdict</th></tr></thead>` +
+                `<tbody>${rows}</tbody></table>` +
+                recLine + aspect +
+                `<p class="sil-pf-score"><span>Print readiness: <strong>${r.score} / 100</strong></span>` +
+                `<span class="sil-pf-meter" role="img" aria-label="Print readiness ${r.score} out of 100"><span style="width:${r.score}%"></span></span>` +
+                `<small title="${esc(r.scoreBreakdown)}">how is this scored?</small></p>` +
+                `<p class="sil-pf-note">Acceptable DPI depends on viewing distance and artwork type &mdash; a banner read from ` +
+                `five metres forgives far more than an A4 brochure in hand. Final print quality also depends on the source ` +
+                `image itself: sharpness, compression and colour.</p>` +
+                `<p class="sil-pf-cta">Need this printed today in London? ` +
+                `<a href="/contact">Get a quote from Silver Image Print &amp; Signs</a></p>` +
+                `</div>`;
+    }
+    function fail(msg) {
+        out.innerHTML = `<div class="sil-pf-result sil-pf-error"><p>${esc(msg)}</p></div>`;
+    }
+    function readSlice(file, start, end) {
+        return file
+            .slice(start, Math.min(end, file.size))
+            .arrayBuffer()
+            .then((buf) => new Uint8Array(buf));
+    }
+    const HEAD_BYTES = 256 * 1024; // nagłówki PNG/WebP/TIFF i ~każdy JPEG
+    const JPEG_FALLBACK = 8 * 1024 * 1024; // JPEG z gigantycznym preambułem — rzadkość
+    /**
+     * Czytanie plasterkowe: NIGDY nie ładujemy całego pliku bez potrzeby.
+     * TIFF z IFD na końcu 200 MB pliku = 256 KB nagłówka + kilkaset bajtów IFD.
+     */
+    async function analyzeFile(file) {
+        const head = await readSlice(file, 0, HEAD_BYTES);
+        const probe = probeTiff(head);
+        if (probe && probe.ifdOffset + 2 > head.length) {
+            // IFD poza nagłówkiem — doczytujemy wyłącznie licznik i sam IFD.
+            const cntB = await readSlice(file, probe.ifdOffset, probe.ifdOffset + 2);
+            if (cntB.length < 2)
+                throw new Error("TIFF directory is truncated");
+            const count = probe.littleEndian ? cntB[0] | (cntB[1] << 8) : (cntB[0] << 8) | cntB[1];
+            const ifdB = await readSlice(file, probe.ifdOffset, probe.ifdOffset + tiffIfdByteLength(count));
+            const image = parseTiffDimsFromIfd(ifdB, probe.littleEndian);
+            return { image, result: assess(image.width, image.height) };
+        }
+        try {
+            return analyzeBytes(head);
+        }
+        catch (e) {
+            // JPEG potrafi mieć SOF za dużym preambułem — eskalujemy odczyt.
+            const truncatable = head.length < file.size && e && e.code === "corrupt";
+            if (!truncatable)
+                throw e;
+        }
+        const more = await readSlice(file, 0, JPEG_FALLBACK);
+        try {
+            return analyzeBytes(more);
+        }
+        catch (e) {
+            if (!(more.length < file.size && e && e.code === "corrupt"))
+                throw e;
+        }
+        return analyzeBytes(await readSlice(file, 0, file.size));
+    }
+    function handle(file) {
+        out.innerHTML = '<div class="sil-pf-busy">Analysing your artwork&hellip; nothing is being uploaded.</div>';
+        analyzeFile(file)
+            .then((data) => render(file.name, data))
+            .catch((e) => fail(e && e.message ? e.message : "This file could not be read as an image."));
+    }
+    drop.addEventListener("click", () => input.click());
+    drop.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            input.click();
+        }
+    });
+    input.addEventListener("change", () => { if (input.files && input.files[0])
+        handle(input.files[0]); });
+    ["dragover", "dragenter"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("sil-pf-over"); }));
+    ["dragleave", "drop"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("sil-pf-over"); }));
+    drop.addEventListener("drop", (e) => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files[0])
+            handle(dt.files[0]);
+    });
+})();
+})();
+</script></body></html>

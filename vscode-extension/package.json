@@ -1,0 +1,61 @@
+{
+  "name": "silver-image-print-preflight",
+  "displayName": "Print Preflight & DPI Checker",
+  "description": "DPI, Print Size & Artwork Resolution Checker. Instantly see whether a JPG, PNG, WebP or TIFF has enough resolution for A0-A6 professional printing. 100% offline - your file never leaves your machine.",
+  "version": "0.1.2",
+  "publisher": "silver-image",
+  "license": "MIT",
+  "icon": "icon.png",
+  "homepage": "https://www.silverimagelondon.com/tools/print-preflight",
+  "bugs": {
+    "url": "https://github.com/silver-image/print-preflight/issues"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "print",
+    "dpi",
+    "preflight",
+    "resolution",
+    "artwork",
+    "poster",
+    "image",
+    "print size"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "silverImagePreflight.checkFile",
+        "title": "Silver Image: Check File for Print"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "silverImagePreflight.checkFile",
+          "when": "resourceExtname =~ /\\.(jpe?g|png|webp|tiff?)$/i",
+          "group": "7_modification"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && cp ../core/dist/cjs/core.js out/core.js",
+    "package": "npx --yes @vscode/vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/silver-image/print-preflight"
+  }
+}
