@@ -49,6 +49,18 @@ directly means huge files cost nothing, and nothing needs to be decoded,
 uploaded or cached — which is the whole privacy story: verify it yourself in
 the browser's network tab while the web tool runs.
 
+## Related guides and templates
+
+The guides below, from Silver Image Print & Signs, work through the numbers the tool reports:
+
+- [What DPI do you need for an A0 poster?](https://www.silverimagelondon.com/guides/what-dpi-for-a0-poster-printing)
+- [How many pixels does a photo need for a canvas print?](https://www.silverimagelondon.com/guides/how-many-pixels-for-a-canvas-print)
+- [What file format is best to send to a printer?](https://www.silverimagelondon.com/guides/what-file-format-for-printing)
+- [How much bleed does each print product need?](https://www.silverimagelondon.com/guides/how-much-bleed-does-each-print-product-need)
+
+Artwork templates at 1:1 in millimetres, with bleed, cut line and safe zone marked, are in
+[silver-image/print-templates](https://github.com/silver-image/print-templates).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
